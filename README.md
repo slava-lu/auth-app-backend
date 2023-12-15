@@ -11,7 +11,7 @@ without relying on additional modules like Passport.js or Object-Relational Mapp
 You can see this app in action at [www.authdemoapp.com](https://www.authdemoapp.com/)
 
 ## Frontend code
-Frontend part of the app can be found here
+Frontend part of the app can be found [here](https://github.com/slava-lu/auth-app-frontend)
 
 ## Basic Features
 1. Create a new user
