@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@const/*": ["./src/const/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@middlewares/*": ["./src/api/v1/auth/middlewares/*"],
+      "@authUtils/*": ["./src/api/v1/auth/utils/*"]
+    }
+  }
+}

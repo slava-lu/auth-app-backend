@@ -1,0 +1,51 @@
+{
+  "name": "auth-demo-app-backend",
+  "version": "2.34.0",
+  "description": "Auth Demo App",
+  "author": "Viacheslav Lushchinskiy",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -r dotenv/config  ./src/index.js",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "dbInit": "node -r dotenv/config  ./src/database/initScript.js"
+  },
+  "_moduleAliases": {
+    "@root": "./",
+    "@const": "./src/const",
+    "@utils": "./src/utils",
+    "@common": "./src/api/v1/common",
+    "@middlewares": "./src/api/v1/middlewares"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "axios": "^1.6.2",
+    "axios-debug-log": "^1.0.0",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "i18n": "^0.15.1",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.3",
+    "otplib": "^12.0.1",
+    "pg": "^8.11.3",
+    "qrcode": "^1.5.3",
+    "query-string": "^8.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "prettier": "^3.1.0"
+  }
+}
