@@ -48,7 +48,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: creae next tag
+    - name: create next tag
       id: semver
       uses: jefflinse/pr-semver-bump@v1
       with:
