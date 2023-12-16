@@ -70,7 +70,8 @@ const cookiesOptionRemember = () => ({
  */
 router.post('/', async (req, res, next) => {
   try {
-    const { email = '', mobilePhone, password, firstName = '', lastName = '', isRemember } = req.body
+    const { email: emailRaw = '', mobilePhone, password, firstName = '', lastName = '', isRemember } = req.body
+    const email = emailRaw.toLowerCase()
 
     const validationResult = validatePassword(password)
     if (validationResult) {

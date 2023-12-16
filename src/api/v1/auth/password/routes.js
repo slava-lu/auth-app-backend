@@ -150,7 +150,8 @@ router.post('/change', checkUser(), async (req, res, next) => {
  */
 router.get('/checkResetCode', async (req, res, next) => {
   try {
-    const { passwordResetCode, email } = req?.query
+    const { passwordResetCode, email: emailRaw } = req?.query
+    const email = emailRaw.toLowerCase()
     if (!passwordResetCode || !email) {
       return res.status(403).send({
         resultCode: resultCodes.ERROR,
@@ -227,7 +228,9 @@ router.get('/checkResetCode', async (req, res, next) => {
 router.post('/resetByCode', async (req, res, next) => {
   const passwordChangedAt = new Date()
   try {
-    const { passwordResetCode, email, password } = req.body
+    const { passwordResetCode, email: emailRaw, password } = req.body
+    const email = emailRaw.toLowerCase()
+
     if (!passwordResetCode || !email || !password) {
       return res.status(403).send({
         resultCode: resultCodes.ERROR,
@@ -314,7 +317,8 @@ router.post('/resetByCode', async (req, res, next) => {
 router.get('/requestResetCode', async (req, res, next) => {
   const passwordResetAt = new Date()
   try {
-    const { email } = req?.query
+    const { email: emailRaw } = req?.query
+    const email = emailRaw.toLowerCase()
     if (!email) {
       return res.status(400).send({
         resultCode: resultCodes.ERROR,

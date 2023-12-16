@@ -7,7 +7,8 @@ const { validatePassword } = require('@utils/helpers')
 const localAuth = async (req, res, next) => {
   const ct = new Date()
   try {
-    const { email, mobilePhone, password } = req.body
+    const { email: emailRaw, mobilePhone, password } = req.body
+    const email = emailRaw.toLowerCase()
 
     const validationResult = validatePassword(password)
     if (validationResult) {
