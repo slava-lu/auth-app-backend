@@ -31,7 +31,8 @@ const oauthMiddleware = () => {
 
       const decodedIdToken = jwt.decode(idToken)
 
-      const { sub, email, given_name, family_name, name, picture } = decodedIdToken
+      const { sub, email: emailRaw, given_name, family_name, name, picture } = decodedIdToken
+      const email = emailRaw.toLowerCase()
 
       // some roles are not allowed to log in using social networks
       const userInfo = getOne(await getUserInfoByEmail(email))
@@ -57,7 +58,7 @@ const oauthMiddleware = () => {
         name,
         picture,
         refresh_token,
-        access_token
+        access_token,
       )
 
       req.user = result

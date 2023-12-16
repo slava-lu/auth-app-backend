@@ -171,7 +171,8 @@ router.post('/local', localAuth, checkUser(), postLogin(), async (req, res, next
  */
 router.post('/loginAs', checkUser(), checkRoles('impersonation'), passwordCheck(), async (req, res, next) => {
   const { accountId, hashCheck } = req.user
-  const { email } = req.body
+  const { email: emailRaw } = req.body
+  const email = emailRaw.toLowerCase()
   try {
     const { userId } = getOne(await getUserData(email))
     if (!userId) {
