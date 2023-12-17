@@ -1,6 +1,6 @@
 const express = require('express')
 const crypto = require('crypto')
-const { resultCodes, userRoles } = require('@utils/const')
+const { resultCodes, userRoles, SPECIAL_ROLE_IDS } = require('@utils/const')
 const { getAll, getOne, updateData, insertData } = require('@utils/dbUtils')
 const { removeRoleFromUser } = require('@common/queries')
 const {
@@ -339,12 +339,6 @@ router.post('/:accountId/assignRoles', async (req, res, next) => {
         message: req.t('admin_error#not_an_array'),
       })
     }
-    if (newRoles.includes(userRoles.SUPER_ADMIN_ROLE_ID)) {
-      return res.status(400).send({
-        resultCode: resultCodes.ERROR,
-        message: req.t('admin_error#special_role_error'),
-      })
-    }
 
     if (!accountId) {
       return res.status(404).send({
@@ -355,10 +349,12 @@ router.post('/:accountId/assignRoles', async (req, res, next) => {
 
     const currentRoles = getAll(await getUserRoleIdsByAccountId(accountId)).map((role) => role.roleId)
 
-    const rolesToAdd = newRoles.filter((role) => !currentRoles.includes(role))
+    const rolesToAdd = newRoles
+      .filter((role) => !currentRoles.includes(role))
+      .filter((role) => !SPECIAL_ROLE_IDS.includes(role))
     const rolesToRemove = currentRoles
       .filter((role) => !newRoles.includes(role))
-      .filter((role) => role !== userRoles.SUPER_ADMIN_ROLE_ID)
+      .filter((role) => !SPECIAL_ROLE_IDS.includes(role))
 
     if (rolesToAdd.length === 0 && rolesToRemove.length === 0) {
       return res.status(400).send({

@@ -34,7 +34,7 @@ const createOauthAccountTransaction = async (
   name,
   picture,
   refresh_token,
-  access_token
+  access_token,
 ) => {
   const client = await pool.connect()
   const queryTr = (request, values) => client.query(request, values)
@@ -95,8 +95,8 @@ const createOauthAccountTransaction = async (
             name,
             picture: base64ImageData,
           },
-          'id'
-        )
+          'id',
+        ),
       )
       await updateDataTrans(queryTr, user, 'auth_accounts', { isEmailVerified: true }, 'email', email)
       if (refresh_token) {
@@ -122,7 +122,7 @@ const createOauthAccountTransaction = async (
         'auth_oauth',
         { given_name, family_name, name, picture: base64ImageData },
         'id',
-        id
+        id,
       )
     }
     await updateDataTrans(
@@ -131,7 +131,7 @@ const createOauthAccountTransaction = async (
       'auth_accounts',
       { lastLoginAt: ct, lastLoginProvider: provider },
       'email',
-      email
+      email,
     )
 
     if (id && refresh_token) {

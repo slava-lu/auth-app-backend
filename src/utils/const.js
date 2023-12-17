@@ -98,6 +98,9 @@ const userRoles = {
   IMPERSONATION_ROLE_ID: 500,
 }
 
+// Special roles are the roles that are not managed via role assignment interface
+const SPECIAL_ROLE_IDS = [100, 300]
+
 module.exports = {
   database,
   resultCodes,
@@ -106,6 +109,7 @@ module.exports = {
   times,
   cookiesOption,
   userRoles,
+  SPECIAL_ROLE_IDS,
   loginProviders,
   CORS_ORIGIN,
   NO_REPLY_FROM,
