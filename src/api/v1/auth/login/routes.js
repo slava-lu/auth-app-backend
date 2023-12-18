@@ -3,7 +3,7 @@ const crypto = require('crypto')
 const { updateData, getOne } = require('@utils/dbUtils')
 const { passwordCheck, checkRoles, checkUser, postLogin } = require('@middlewares')
 const { createToken, verifyToken } = require('../authUtils')
-const { resultCodes, errorCodes, cookiesOption } = require('@utils/const')
+const { resultCodes, errorCodes, cookiesOption, userRoles } = require('@utils/const')
 const { localAuth } = require('./localAuth')
 const { getUserInfoByAccountId, getUserData } = require('../authQueries')
 
@@ -169,30 +169,36 @@ router.post('/local', localAuth, checkUser(), postLogin(), async (req, res, next
  *                   type: object
  *                   description: Empty object, as the userInfo will be requested after page reload.
  */
-router.post('/loginAs', checkUser(), checkRoles('impersonation'), passwordCheck(), async (req, res, next) => {
-  const { accountId, hashCheck } = req.user
-  const { email: emailRaw } = req.body
-  const email = emailRaw.toLowerCase()
-  try {
-    const { userId } = getOne(await getUserData(email))
-    if (!userId) {
-      return res.status(404).send({
-        resultCode: resultCodes.ERROR,
-        errorCode: errorCodes.USER_NOT_FOUND,
-        message: req.t('auth_error#login_as_user_email_not_exist'),
-      })
-    }
-    const jwt = createToken({ accountId, userId, hashCheck, impersonationMode: true })
+router.post(
+  '/loginAs',
+  checkUser(),
+  checkRoles(userRoles.IMPERSONATION_ROLE_NAME),
+  passwordCheck(),
+  async (req, res, next) => {
+    const { accountId, hashCheck } = req.user
+    const { email: emailRaw } = req.body
+    const email = emailRaw.toLowerCase()
+    try {
+      const { userId } = getOne(await getUserData(email))
+      if (!userId) {
+        return res.status(404).send({
+          resultCode: resultCodes.ERROR,
+          errorCode: errorCodes.USER_NOT_FOUND,
+          message: req.t('auth_error#login_as_user_email_not_exist'),
+        })
+      }
+      const jwt = createToken({ accountId, userId, hashCheck, impersonationMode: true })
 
-    // The page is reload after this call so no need to get the userInfo, as it will be requested after the reload anyway.
-    return res.cookie('jwt', jwt, { ...cookiesOption }).send({
-      resultCode: resultCodes.SUCCESS,
-      userInfo: {},
-    })
-  } catch (err) {
-    next(err)
-  }
-})
+      // The page is reload after this call so no need to get the userInfo, as it will be requested after the reload anyway.
+      return res.cookie('jwt', jwt, { ...cookiesOption }).send({
+        resultCode: resultCodes.SUCCESS,
+        userInfo: {},
+      })
+    } catch (err) {
+      next(err)
+    }
+  },
+)
 
 /**
  * @swagger
