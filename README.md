@@ -7,6 +7,9 @@ services such as Auth0. However, this app demonstrates that this might not be ne
 It offers a comprehensive authentication solution based on Node.js and Express.js,
 without relying on additional modules like Passport.js or Object-Relational Mapping (ORM) tools.
 
+## Blog
+The article with [explanation of the advanced features ](https://javascript.plainenglish.io/all-inclusive-and-bulletproof-authentication-with-node-js-and-express-js-a-hardcore-style-243f65f16542)
+
 ## Demo
 You can see this app in action at [www.authdemoapp.com](https://www.authdemoapp.com/)
 
