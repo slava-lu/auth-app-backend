@@ -8,7 +8,7 @@ It offers a comprehensive authentication solution based on Node.js and Express.j
 without relying on additional modules like Passport.js or Object-Relational Mapping (ORM) tools.
 
 ## Blog
-The article with [explanation of the advanced features ](https://medium.com/@vialus/all-inclusive-and-bulletproof-authentication-with-node-js-and-express-js-a-hardcore-style-243f65f16542)
+The article with [explanation of the advanced features ](https://levelup.gitconnected.com/no-limit-auth-using-express-js-hardcore-style-fb58c4343897)
 
 ## Demo
 You can see this app in action at [www.authdemoapp.com](https://www.authdemoapp.com/)
