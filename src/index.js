@@ -31,16 +31,22 @@ const init = async () => {
 
     const swaggerDocs = swaggerJsDoc(swaggerOptions)
 
-    const configOption = getAll(await getConfigOptions())
-    const config = configOption.map((param) => param.param).reduce((result, obj) => ({ ...result, ...obj }), {})
-    // putting config into the global variable that can be accessed like: req.app.get('config');
-    app.set('config', config)
+    try {
+      const configOption = getAll(await getConfigOptions())
+      const config = configOption.map((param) => param.param).reduce((result, obj) => ({ ...result, ...obj }), {})
+      // putting config into the global variable that can be accessed like: req.app.get('config');
+      app.set('config', config)
+    } catch (e) {
+      console.error('cannot get the config', e)
+      app.set('config', {})
+    }
+
     app.use(cookieParser())
     app.use(
       cors({
         credentials: true,
         origin: CORS_ORIGIN,
-      })
+      }),
     )
 
     app.use(i18n.init)
