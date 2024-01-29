@@ -1,0 +1,51 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-2                        # set this to your preferred AWS region, e.g. us-west-1
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: version
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: create next tag
+      id: semver
+      uses: jefflinse/pr-semver-bump@v1
+      with:
+        mode: bump
+        major-label: major
+        minor-label: minor
+        patch-label: patch
+        with-v: true
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: bump package.json version
+      uses: reedyuk/npm-version@1.1.1
+      with:
+        version: ${{ steps.semver.outputs.version }}
+
+    - name: commit files
+      uses: EndBug/add-and-commit@v9.0.0
+      with:
+        message: update version to ${{ steps.semver.outputs.version }}
+        default_author: github_actions
+
+    - name: Set up SSH connection
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+
+    - name: Deploy to Lightsail
+      run: |
+        ssh -o "StrictHostKeyChecking=no" ubuntu@3.132.37.247 "cd /home/ubuntu/auth-app-backend && git pull && docker-compose up --build -d"
+

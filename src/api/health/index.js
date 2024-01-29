@@ -7,6 +7,7 @@ const router = express.Router()
 router.get('/', (req, res) => {
   res.send({
     resultCode: resultCodes.SUCCESS,
+    message: 'connection OK',
   })
 })
 module.exports = router
